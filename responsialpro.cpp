@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <fstream>
+#include <fstream> // Menggantikan iomanip untuk fitur simpan file
 using namespace std;
 
 class Penyewa {
@@ -57,7 +57,7 @@ private:
         return "Tidak Mendapat Bonus";
     }
 
-
+    // FUNGSI REKURSIF (WAJIB UTS)
     int rekursifPendapatan(int index) {
         if (index < 0) return 0;
         return data[index].bayar + rekursifPendapatan(index - 1);
@@ -68,7 +68,7 @@ private:
         return data[index].lama + rekursifJam(index - 1);
     }
 
-
+    // FUNGSI UTK MENYIMPAN DATA KE FILE .TXT
     void simpanKeFile() {
         ofstream file("data_rental.txt");
         if (!file) {
@@ -76,7 +76,7 @@ private:
             return;
         }
         
-
+        // Simpan jumlah data aktif terlebih dahulu di baris pertama
         file << n << "\n"; 
         
         for (int i = 0; i < n; i++) {
@@ -92,10 +92,11 @@ private:
         file.close();
     }
 
+    // FUNGSI UTK MEMUAT DATA LAMA SAAT PROGRAM DIJALANKAN
     void muatDariFile() {
         ifstream file("data_rental.txt");
         if (!file) {
-
+            // Jika file belum ada, set data = 0 (berarti running pertama kali)
             n = 0;
             return;
         }
@@ -104,7 +105,7 @@ private:
             n = 0;
             return;
         }
-        file.ignore(); 
+        file.ignore(); // Bersihkan sisa newline setelah membaca variabel n
 
         for (int i = 0; i < n; i++) {
             getline(file, data[i].id);
@@ -114,7 +115,7 @@ private:
             file >> data[i].total;
             file >> data[i].diskon;
             file >> data[i].bayar;
-            file.ignore(); 
+            file.ignore(); // Bersihkan newline sebelum membaca teks bonus
             getline(file, data[i].bonus);
         }
         file.close();
@@ -122,6 +123,7 @@ private:
 
 public:
     SistemPenyewaan() { 
+        // Otomatis load data setiap kali aplikasi dinyalakan
         muatDariFile(); 
     }
 
@@ -161,7 +163,7 @@ public:
         data[n] = p;
         n++;
 
-        
+        // Simpan perubahan ke harddisk secara realtime
         simpanKeFile(); 
 
         cout << "\n[*] Data Berhasil Disimpan ke Database File!\n--- Ringkasan Transaksi ---\n";
@@ -282,7 +284,7 @@ public:
         int pilihan;
         do {
             cout << "\n==========================================\n";
-            cout << "      PENYEWAAN PLAYSTATION (PERSISTENT)\n";
+            cout << "         PENYEWAAN PLAYSTATION \n";
             cout << "==========================================\n";
             cout << "  1. Tambah Data Penyewa\n";
             cout << "  2. Tampilkan Semua Data\n";
